@@ -1,0 +1,81 @@
+# Тестирование API танцевальной студии
+# Запускать после запуска сервера: python server/app.py
+# curl.exe на Windows 10+ (настоящий curl, не алиас PowerShell)
+
+### 1. Регистрация нового студента
+curl.exe -X POST http://localhost:5000/api/auth/signup   -H "Content-Type: application/json"   -d "{\"login\":\"test_student\",\"password\":\"123\",\"user_type\":\"student\",\"name\":\"Тестов Студент\"}"
+
+### 2. Регистрация нового преподавателя
+curl.exe -X POST http://localhost:5000/api/auth/signup ^
+  -H "Content-Type: application/json" ^
+  -d "{\"login\":\"test_teacher\",\"password\":\"123\",\"user_type\":\"teacher\",\"name\":\"Тестов Учитель\"}"
+
+### 3. Вход студента
+curl.exe -X POST http://localhost:5000/api/auth/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"login\":\"andreev_student\",\"password\":\"123\"}"
+
+### 4. Вход преподавателя
+curl.exe -X POST http://localhost:5000/api/auth/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"login\":\"ivanov_teacher\",\"password\":\"123\"}"
+
+### 5. Список стилей
+curl.exe http://localhost:5000/api/styles
+
+### 6. Создать стиль
+curl.exe -X POST http://localhost:5000/api/styles ^
+  -H "Content-Type: application/json" ^
+  -d "{\"name\":\"Dancehall\"}"
+
+### 7. Список групп
+curl.exe http://localhost:5000/api/groups
+
+### 8. Создать группу
+curl.exe -X POST http://localhost:5000/api/groups ^
+  -H "Content-Type: application/json" ^
+  -d "{\"name\":\"Dancehall Kids\",\"age_from\":6,\"age_to\":12,\"style_id\":11}"
+
+### 9. Студенты группы 1
+curl.exe http://localhost:5000/api/groups/1/students
+
+### 10. Добавить студента в группу
+curl.exe -X POST http://localhost:5000/api/groups/1/students ^
+  -H "Content-Type: application/json" ^
+  -d "{\"student_id\":1}"
+
+### 11. Список программ
+curl.exe http://localhost:5000/api/programs
+
+### 12. Создать программу
+curl.exe -X POST http://localhost:5000/api/programs ^
+  -H "Content-Type: application/json" ^
+  -d "{\"name\":\"Dancehall Advanced\",\"style_id\":11,\"track\":\"Продвинутый\",\"duration\":\"60:00\"}"
+
+### 13. Список уроков
+curl.exe http://localhost:5000/api/lessons
+
+### 14. Уроки по дате
+curl.exe "http://localhost:5000/api/lessons?date=2026-06-15"
+
+### 15. Создать урок
+curl.exe -X POST http://localhost:5000/api/lessons ^
+  -H "Content-Type: application/json" ^
+  -d "{\"group_id\":1,\"program_id\":1,\"datetime_start\":\"2026-06-22T10:00:00\",\"datetime_end\":\"2026-06-22T10:45:00\"}"
+
+### 16. Группы студента (user_id=11)
+curl.exe "http://localhost:5000/api/me/groups?user_id=11"
+
+### 17. Будущие уроки студента
+curl.exe "http://localhost:5000/api/me/lessons?user_id=11&period=future"
+
+### 18. Редактирование профиля студента
+curl.exe -X PUT http://localhost:5000/api/students/1 ^
+  -H "Content-Type: application/json" ^
+  -d "{\"name\":\"Андреев Максим Ильич\",\"phone\":\"+7-911-111-11-11\",\"email\":\"andreev@student.ru\",\"sex\":\"male\",\"age\":10}"
+
+### 19. Удалить студента из группы
+curl.exe -X DELETE http://localhost:5000/api/groups/1/students/1
+
+### 20. Удалить урок
+curl.exe -X DELETE http://localhost:5000/api/lessons/21
