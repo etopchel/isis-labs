@@ -1,0 +1,16 @@
+# Тестирование API (команды для Thunder Client / curl)
+# GET все студенты
+GET http://localhost:5000/api/students
+ 
+# POST создать студента
+POST http://localhost:5000/api/students
+Content-Type: application/json
+{"last_name": "Тестов", "first_name": "Тест", "group_id": 1}
+ 
+# PUT обновить
+PUT http://localhost:5000/api/students/1
+Content-Type: application/json
+{"last_name": "Иванов", "first_name": "Петр", "group_id": 2}
+ 
+# DELETE удалить
+DELETE http://localhost:5000/api/students/11
