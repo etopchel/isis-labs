@@ -1,0 +1,73 @@
+@startuml
+title ER-диаграмма: Танцевальная студия
+
+entity "Пользователи" as users {
+  * id : SERIAL
+    login : VARCHAR(50)
+    password : VARCHAR(255)
+    user_type : VARCHAR(10)
+}
+
+entity "Преподаватели" as teachers {
+  * id : SERIAL
+    name : VARCHAR(100)
+    phone : VARCHAR(20)
+    email : VARCHAR(255)
+    sex : VARCHAR(10)
+    age : INTEGER
+    user_id : INTEGER (FK)
+}
+
+entity "Студенты" as students {
+  * id : SERIAL
+    name : VARCHAR(100)
+    phone : VARCHAR(20)
+    email : VARCHAR(255)
+    sex : VARCHAR(10)
+    age : INTEGER
+    user_id : INTEGER (FK)
+}
+
+entity "Стили танца" as styles {
+  * id : SERIAL
+    name : VARCHAR(100)
+}
+
+entity "Группы" as groups_ {
+  * id : SERIAL
+    name : VARCHAR(100)
+    age_from : INTEGER
+    age_to : INTEGER
+    style_id : INTEGER (FK)
+}
+
+entity "Студент-Группа" as student_group {
+  * student_id : INTEGER (FK)
+  * group_id : INTEGER (FK)
+}
+
+entity "Программы" as programs {
+  * id : SERIAL
+    name : VARCHAR(200)
+    style_id : INTEGER (FK)
+    track : VARCHAR(100)
+    duration : VARCHAR(5)
+}
+
+entity "Уроки" as lessons {
+  * id : SERIAL
+    group_id : INTEGER (FK)
+    program_id : INTEGER (FK)
+    datetime_start : TIMESTAMP
+    datetime_end : TIMESTAMP
+}
+
+users ||--|| teachers : является
+users ||--|| students : является
+styles ||--|{ groups_ : содержит
+styles ||--|{ programs : имеет
+groups_ ||--|{ student_group : включает
+students ||--|{ student_group : состоит
+groups_ ||--|{ lessons : проводит
+programs ||--|{ lessons : изучается
+@enduml
