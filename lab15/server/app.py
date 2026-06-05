@@ -109,6 +109,18 @@ def login():
 
 # ========== STUDENTS ==========
 
+@app.route("/api/students", methods=["GET"])
+def get_students():
+    """Получить список всех студентов."""
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM students ORDER BY name")
+    students = cur.fetchall()
+    cur.close()
+    conn.close()
+    return jsonify(students)
+
+
 @app.route("/api/students/<int:student_id>", methods=["GET"])
 def get_student(student_id):
     """Получить данные студента."""
