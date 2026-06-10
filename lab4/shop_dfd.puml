@@ -1,0 +1,28 @@
+@startuml
+title DFD: Обработка заказа в интернет-магазине
+skinparam rectangle {
+  BackgroundColor<<entity>> LightBlue
+  BackgroundColor<<process>> LightGreen
+  BackgroundColor<<datastore>> LightYellow
+}
+
+rectangle "Клиент" <<entity>> as client
+rectangle "Курьерскаяслужба" <<entity>> as courier
+rectangle "Платежнаясистема" <<entity>> as payment
+
+rectangle "(P1)\nОбработка заказа" <<process>> as P1
+rectangle "(P2)\nУправление складом" <<process>> as P2
+rectangle "(P3)\nОбработка платежа" <<process>> as P3
+
+database "D1: База заказов" <<datastore>> as D1
+database "D2: Каталог товаров" <<datastore>> as D2
+
+client --> P1 : заявка
+P1 --> client : подтверждение
+P1 --> D1 : сохранение заказа
+P1 --> P2 : проверка наличия
+P2 --> D2 : запрос остатков
+P1 --> P3 : данные оплаты
+P3 --> payment : запросплатежа
+P1 --> courier : заявка на доставку
+@enduml
