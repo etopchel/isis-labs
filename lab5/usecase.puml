@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+title Use Case: Танцевальная студия
+
+actor "Пользователь" as user
+actor "Студент" as student
+user <|-- student
+actor "Преподаватель" as teacher
+user <|-- teacher
+
+rectangle "Танцевальная студия" {
+  usecase "Регистрация" as UC1
+  usecase "Вход и редактирование профиля (учитель)" as UC2
+  usecase "Вход и редактирование профиля (студент)" as UC3
+  usecase "Управление стилями танца" as UC4
+  usecase "Управление группами" as UC5
+  usecase "Добавление/удаление студентов из групп" as UC6
+  usecase "Просмотр своих групп (студент)" as UC7
+  usecase "Управление программами" as UC8
+  usecase "Управление уроками" as UC9
+  usecase "Просмотр расписания уроков (студент)" as UC10
+}
+
+student --> UC1
+student --> UC3
+student --> UC7
+student --> UC10
+teacher --> UC1
+teacher --> UC2
+teacher --> UC4
+teacher --> UC5
+teacher --> UC6
+teacher --> UC8
+teacher --> UC9
+UC2 .[#blue].> UC1 : <<include>>
+UC3 .[#red].> UC1 : <<include>>
+UC4 .[#blue].> UC1 : <<include>>
+UC5 .[#red].> UC1 : <<include>>
+UC6 .[#blue].> UC1 : <<include>>
+UC7 .[#red].> UC1 : <<include>>
+UC8 .[#blue].> UC1 : <<include>>
+UC9 .[#red].> UC1 : <<include>>
+UC10 .[#blue].> UC1 : <<include>>
+@enduml
